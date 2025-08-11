@@ -476,6 +476,97 @@
                 transform: translateY(0vh) scale(0);
             }
         }
+
+        /* Extra mobile responsiveness */
+        @media (max-width: 768px) {
+
+            /* Navigation */
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                width: 30px;
+                height: 20px;
+                position: relative;
+                z-index: 1001;
+            }
+
+            .hamburger span {
+                display: block;
+                height: 3px;
+                width: 100%;
+                background: #64ffda;
+                margin: 5px 0;
+                border-radius: 3px;
+                transition: 0.3s ease;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: rgba(15, 15, 35, 0.95);
+                padding: 1rem;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            /* Hero */
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            /* About */
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .profile-pic {
+                max-width: 200px;
+            }
+
+            /* Projects */
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Contact */
+            .contact-content {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 

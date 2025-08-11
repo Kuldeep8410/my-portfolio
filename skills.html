@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Card</title>
+<style>
+    body {
+        background-color: #0d0d0d;
+        font-family: 'Courier New', monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .skill-card {
+        background-color: #111;
+        color: #00ff7f;
+        border-radius: 10px;
+        padding: 20px;
+        width: 350px;
+        max-width: 100%;
+        box-shadow: 0 0 20px rgba(0, 255, 127, 0.4);
+        border: 1px solid #00ff7f;
+        box-sizing: border-box;
+    }
+
+    .terminal-header {
+        background-color: #0f0f0f;
+        padding: 10px;
+        border-bottom: 1px solid #00ff7f;
+        font-size: 14px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .terminal-header span {
+        color: #ff3b3b;
+        margin-right: 8px;
+    }
+
+    h2 {
+        font-size: 18px;
+        color: #00ff7f;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    li {
+        margin: 5px 0;
+    }
+
+    .section-title {
+        color: #1affd5;
+        margin-top: 15px;
+        font-size: 16px;
+        border-bottom: 1px dashed #00ff7f;
+        padding-bottom: 3px;
+    }
+
+    /* Responsive design for smartphones */
+    @media (max-width: 480px) {
+        body {
+            height: auto;
+            padding: 20px;
+        }
+        .skill-card {
+            width: 100%;
+            padding: 15px;
+        }
+        h2 {
+            font-size: 16px;
+        }
+        .section-title {
+            font-size: 14px;
+        }
+        li {
+            font-size: 14px;
+        }
+        .terminal-header {
+            font-size: 12px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="skill-card">
+    <div class="terminal-header">
+        <span>●</span><span>●</span><span>●</span> terminal@portfolio:~$
+    </div>
+    <h2>My Skills</h2>
+    <ul>
+        <li>HTML, CSS, JavaScript</li>
+        <li>Python (Basics + Libraries)</li>
+        <li>Git & GitHub</li>
+        <li>Machine Learning (Intro)</li>
+    </ul>
+
+    <div class="section-title">What I Learned</div>
+    <ul>
+        <li>Building responsive web pages</li>
+        <li>Version control using Git</li>
+        <li>Basics of data analysis</li>
+        <li>Deploying websites online</li>
+    </ul>
+</div>
+
+</body>
+</html>
