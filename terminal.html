@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating background elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .floating-item {
+            position: absolute;
+            color: #00ff00;
+            font-size: 12px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .terminal-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .btn.close { background: #ff5f56; }
+        .btn.minimize { background: #ffbd2e; }
+        .btn.maximize { background: #27ca3f; }
+
+        .terminal-title {
+            margin-left: 10px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .terminal-body {
+            background: #000;
+            border-radius: 0 0 8px 8px;
+            padding: 20px;
+            min-height: 80vh;
+            border: 1px solid #333;
+            border-top: none;
+        }
+
+        .terminal-line {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .prompt {
+            color: #00ff00;
+        }
+
+        .user-input {
+            color: #fff;
+        }
+
+        .cursor {
+            background: #00ff00;
+            animation: blink 1s infinite;
+            width: 10px;
+            height: 16px;
+            display: inline-block;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .input-field {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            outline: none;
+            flex: 1;
+            margin-left: 5px;
+        }
+
+        .command-shortcuts {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .shortcut-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #00ff00;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .shortcut-btn:hover {
+            background: #333;
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .output-text {
+            color: #fff;
+        }
+
+        .success-text {
+            color: #00ff00;
+        }
+
+        .warning-text {
+            color: #ffff00;
+        }
+
+        .error-text {
+            color: #ff6b6b;
+        }
+
+        .highlight {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .section-title {
+            color: #ffff00;
+            font-size: 18px;
+            margin: 15px 0 10px 0;
+            text-decoration: underline;
+        }
+
+        .project-item {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid #00ff00;
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .project-title {
+            color: #00ff00;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tech-stack {
+            color: #ffff00;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .typing {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 0.05s steps(1) forwards;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .terminal-container {
+                padding: 10px;
+            }
+            
+            .terminal-body {
+                padding: 15px;
+            }
+            
+            .command-shortcuts {
+                gap: 8px;
+            }
+            
+            .shortcut-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .input-field {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .terminal-header {
+                padding: 8px 12px;
+            }
+            
+            .terminal-title {
+                font-size: 12px;
+            }
+            
+            .floating-item {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <div class="terminal-container">
+        <!-- <div class="terminal-header">
+            <div class="terminal-buttons">
+                <div class="btn close"></div>
+                <div class="btn minimize"></div>
+                <div class="btn maximize"></div>
+            </div>
+            <div class="terminal-title">developer@portfolio:~$</div>
+        </div> -->
+        
+        <div class="terminal-body">
+            <div id="terminal-output">
+                <div class="terminal-line">
+                    <span class="success-text">Welcome to my Developer Portfolio Terminal!</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="output-text">Type 'help' to see available commands or click the shortcuts below.</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="warning-text">=========================================</span>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <span class="prompt">Kuldeep8410@portfolio:~$</span>
+                <input type="text" class="input-field" id="commandInput" placeholder="Type a command..." autocomplete="off">
+                <span class="cursor" id="cursor"></span>
+            </div>
+            
+            <div class="command-shortcuts">
+                <button class="shortcut-btn" onclick="executeCommand('help')">help</button>
+                <button class="shortcut-btn" onclick="executeCommand('about')">about</button>
+                <button class="shortcut-btn" onclick="executeCommand('skills')">skills</button>
+                <button class="shortcut-btn" onclick="executeCommand('projects')">projects</button>
+                <button class="shortcut-btn" onclick="executeCommand('experience')">experience</button>
+                <button class="shortcut-btn" onclick="executeCommand('contact')">contact</button>
+                <button class="shortcut-btn" onclick="executeCommand('clear')">clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating background elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            const symbols = ['&lt;/&gt;', '{}', '[]', '()', '&lt;div&gt;', 'function()', 'const', 'let', 'var', 'return', 'class', 'import', 'export', '&lt;html&gt;', 'React', 'Node.js', 'CSS', 'JS', 'API', 'JSON', 'HTTP', 'Git', 'npm', 'yarn'];
+            
+            // Create initial floating items
+            for (let i = 0; i < 20; i++) {
+                createFloatingItem(container, symbols);
+            }
+            
+            // Continuously create new items
+            setInterval(() => {
+                createFloatingItem(container, symbols);
+            }, 3000);
+        }
+
+        function createFloatingItem(container, symbols) {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            item.style.left = Math.random() * 100 + '%';
+            item.style.animationDuration = (15 + Math.random() * 10) + 's';
+            item.style.animationDelay = Math.random() * 5 + 's';
+            
+            container.appendChild(item);
+            
+            // Remove item after animation
+            setTimeout(() => {
+                if (item.parentNode) {
+                    item.parentNode.removeChild(item);
+                }
+            }, 25000);
+        }
+
+        // Terminal functionality
+        const terminalOutput = document.getElementById('terminal-output');
+        const commandInput = document.getElementById('commandInput');
+        const cursor = document.getElementById('cursor');
+
+        const commands = {
+            help: {
+                output: `<div class="section-title">Available Commands:</div>
+                <div class="output-text">• <span class="highlight">about</span> - Learn more about me</div>
+                <div class="output-text">• <span class="highlight">skills</span> - View my technical skills</div>
+                <div class="output-text">• <span class="highlight">projects</span> - See my featured projects</div>
+                <div class="output-text">• <span class="highlight">experience</span> - Check my work experience</div>
+                <div class="output-text">• <span class="highlight">contact</span> - Get my contact information</div>
+                <div class="output-text">• <span class="highlight">clear</span> - Clear the terminal</div>
+                <div class="output-text">• <span class="highlight">help</span> - Show this help menu</div>`
+            },
+            about: {
+                output: `<div class="section-title">About Me</div>
+                <div class="output-text">B.Tech Computer Science student with expertise in full-stack development (MERN, Next.js, TypeScript) and scalable solutions. 200+ coding problems solved on LeetCode and GeeksForGeeks.</div>
+                <br>
+                <div class="output-text">Proficient in Java, Python, JavaScript, SQL, and C++. Strong problem-solving skills with experience in real-time applications, APIs, and backend architecture.</div>
+                <br>
+                <div class="success-text"> Passionate about creating innovative solutions and learning new technologies!</div>`
+            },
+            skills: {
+                output: `<div class="section-title">Technical Skills</div>
+                <div class="highlight">Frontend:</div>
+                <div class="output-text">HTML, CSS, JavaScript, React.js, Next.js, Tailwind CSS, Bootstrap</div>
+                <br>
+                <div class="highlight">Backend:</div>
+                <div class="output-text">Node.js, Express.js, Flask (basic)</div>
+                <br>
+                <div class="highlight">Databases:</div>
+                <div class="output-text">MongoDB, MySQL</div>
+                <br>
+                <div class="highlight">Tools:</div>
+                <div class="output-text">Git, GitHub, VS Code, Postman, Docker</div>
+                <br>
+                <div class="highlight">Other:</div>
+                <div class="output-text">REST APIs, WebSockets, JWT Auth, AWS (basic)</div>`
+            },
+            projects: {
+                output: `<div class="section-title">Featured Projects</div>
+                <div class="project-item"><a href="https://github.com" target="_blank">🔗 Code Collaborator</a></div>
+                    <div class="output-text">Real-time collaborative code editor with chat and live code execution. Features include multi-user editing, syntax highlighting, and instant communication.</div>
+                    <div class="tech-stack">Tech Stack: Next.js, Node.js, MongoDB, WebSockets, Docker</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-title">🎓 University Access System</div>
+                    <div class="output-text">Automated student entry/exit, attendance tracking, quiz management, and community hub. Streamlines campus operations with real-time data processing.</div>
+                    <div class="tech-stack">Tech Stack: MERN Stack, JWT, Socket.io</div>
+                </div>
+                <div class="project-item">
+                    <div class="project-title">Advanced ToDo App</div>
+                    <div class="output-text">Backend-supported task manager with timers and user authentication. Features include priority levels, deadlines, and progress tracking.</div>
+                    <div class="tech-stack">Tech Stack: MERN Stack</div>
+                </div>`
+            },
+            experience: {
+                output: `<div class="section-title">Experience & Achievements</div>
+                <div class="output-text">• Developed <span class="highlight">REST APIs</span> in Node.js for backend systems</div>
+                <br>
+                <div class="output-text">• Built <span class="highlight">full-stack applications</span> integrating frontend, backend, and database</div>
+                <br>
+                <div class="output-text">• Managed <span class="highlight">university web developer community</span></div>
+                <br>
+                <div class="output-text">• Completed <span class="highlight">GfG #160DaysOfCode</span> (80% progress)</div>
+                <div class="output-text">  └─ Covering BST, DP, Graph, Tries, and advanced algorithms</div>
+                <br>
+                <div class="success-text">📈 Solved 200+ coding problems on LeetCode and GeeksForGeeks</div>`
+            },
+            contact: {
+                output: `<div class="section-title">Contact Information</div>
+                <div class="output-text">📧 <span class="highlight">Email:</span> kuldeep8410mtr@gmail.com</div>
+                <br>
+                <div class="output-text">💼 <span class="highlight">LinkedIn:</span> [your LinkedIn]</div>
+                <br>
+                <div class="output-text">🔗 <span class="highlight">GitHub:</span> [your GitHub]</div>
+                <br>
+                <div class="output-text">📁 <span class="highlight">Portfolio Repo:</span> [your portfolio repo link]</div>
+                <br>
+                <div class="success-text">Feel free to reach out for collaborations or opportunities! 🚀</div>`
+            },
+            clear: {
+                clear: true
+            }
+        };
+
+        function addLine(content, prompt = true) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            
+            if (prompt) {
+                line.innerHTML = `<span class="prompt">developer@portfolio:~$</span> <span class="user-input">${content}</span>`;
+            } else {
+                line.innerHTML = content;
+            }
+            
+            terminalOutput.appendChild(line);
+        }
+
+        function typeText(element, text, speed = 30) {
+            return new Promise((resolve) => {
+                let i = 0;
+                element.innerHTML = '';
+                
+                function type() {
+                    if (i < text.length) {
+                        element.innerHTML = text.slice(0, i + 1);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        async function executeCommand(cmd) {
+            const command = cmd.toLowerCase().trim();
+            
+            if (command === '') return;
+            
+            // Add user input line
+            addLine(command);
+            
+            // Handle command
+            if (commands[command]) {
+                if (commands[command].clear) {
+                    terminalOutput.innerHTML = `
+                        <div class="terminal-line">
+                            <span class="success-text">Terminal cleared!</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="output-text">Type 'help' to see available commands.</span>
+                        </div>
+                    `;
+                } else {
+                    const outputLine = document.createElement('div');
+                    outputLine.className = 'terminal-line';
+                    terminalOutput.appendChild(outputLine);
+                    
+                    await typeText(outputLine, commands[command].output, 20);
+                }
+            } else {
+                const errorLine = document.createElement('div');
+                errorLine.className = 'terminal-line';
+                errorLine.innerHTML = `<span class="error-text">Command not found: ${command}</span><br><span class="output-text">Type 'help' to see available commands.</span>`;
+                terminalOutput.appendChild(errorLine);
+            }
+            
+            // Scroll to bottom
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            
+            // Clear input
+            commandInput.value = '';
+        }
+
+        // Event listeners
+        commandInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeCommand(this.value);
+            }
+        });
+
+        // Hide cursor when typing
+        commandInput.addEventListener('focus', () => {
+            cursor.style.display = 'none';
+        });
+
+        commandInput.addEventListener('blur', () => {
+            cursor.style.display = 'inline-block';
+        });
+
+        // Initialize
+        createFloatingElements();
+        commandInput.focus();
+    </script>
+</body>
+</html>
