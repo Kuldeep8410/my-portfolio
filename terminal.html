@@ -205,10 +205,10 @@
         }
 
         .section-title {
-            color: #ffff00;
+            color: #d8e708;
             font-size: 18px;
             margin: 15px 0 10px 0;
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         .project-item {
@@ -312,6 +312,12 @@
                 font-size: 14px;
             }
         }
+           .terminal-link {
+                /* aesthetic teal for my links in contact */
+                color: #64ffda;
+                text-decoration: underline;
+                transition: color 0.2s;
+            }
 
         /* Smartphone-specific refinements */
         @media (max-width: 480px) {
@@ -526,11 +532,11 @@
                 output: `<div class="section-title">Contact Information</div>
                 <div class="output-text">📧 <span class="highlight">Email:</span> kuldeep8410mtr@gmail.com</div>
                 <br>
-                <div class="output-text">💼 <span class="highlight">LinkedIn:</span> [your LinkedIn]</div>
+                <div class="output-text">💼 <span class="highlight">LinkedIn:</span> <a href="https://www.linkedin.com/in/kuldeep-sharma-b555a21b8/" target="_blank" class="terminal-link" style="text-decoration: none;">https://www.linkedin.com/in/kuldeep-sharma-b555a21b8/</a></div>
                 <br>
-                <div class="output-text">🔗 <span class="highlight">GitHub:</span> [your GitHub]</div>
+                <div class="output-text">🔗 <span class="highlight">GitHub:</span> <a href="https://github.com/kuldeep8410" target="_blank" class="terminal-link" style="text-decoration: none;">https://github.com/kuldeep8410</a></div>
                 <br>
-                <div class="output-text">📁 <span class="highlight">Portfolio Repo:</span> [your portfolio repo link]</div>
+                <div class="output-text">📁 <span class="highlight">Portfolio Repo:</span> <a href="https://github.com/Kuldeep8410/my-portfolio" target="_blank" class="terminal-link" style="text-decoration: none;">https://github.com/Kuldeep8410/my-portfolio</a></div>
                 <br>
                 <div class="success-text">Feel free to reach out for collaborations or opportunities! 🚀</div>`
             },
