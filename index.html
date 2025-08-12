@@ -442,6 +442,7 @@
             height: 100%;
             overflow: hidden;
             z-index: 1;
+            opacity: 1;
         }
 
         .particle {
@@ -450,7 +451,7 @@
             pointer-events: none;
             width: 4px;
             height: 4px;
-            background: rgba(100, 255, 218, 0.3);
+            background: rgba(240, 245, 244, 0.3);
             border-radius: 50%;
             animation: floatUp 6s infinite linear;
         }
@@ -572,6 +573,7 @@
 
 <body>
     <div class="scroll-indicator"></div>
+    <iframe src="background.html" style="position:fixed; inset: 0; width:100vw; height:100vh; z-index: 0; border:none; pointer-events:none;"></iframe>
 
     <nav id="navbar">
         <div class="nav-container">
@@ -759,12 +761,20 @@
         function createParticles() {
             const particles = document.querySelector('.particles');
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 40; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width; // Keep it circular
+                particle.style.background = `rgba(240, 245, 244, ${Math.random() * 0.5 + 0.2})`;
+                particle.style.opacity = Math.random() * 0.5 + 0.2; // Random opacity
+                particle.style.transform = `translateY(${Math.random() * 100}vh)`;
+                particle.style.animationName = 'floatUp';
+                particle.style.animationTimingFunction = 'linear';
+                particle.style.animationIterationCount = 'infinite';
                 particles.appendChild(particle);
             }
         }

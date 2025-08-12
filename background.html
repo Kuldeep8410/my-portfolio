@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Shapes Background</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .floating-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.3;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: #ebe8dd;
+            animation: float 20s infinite;
+        }
+
+        .square {
+            background: linear-gradient(45deg, #ec4899, #f43f5e);
+            animation: float 25s infinite reverse;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            background: transparent;
+            animation: float 18s infinite;
+        }
+
+        .triangle::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 43px solid #10b981;
+            top: -21px;
+            left: -25px;
+        }
+
+        .ellipse {
+            border-radius: 50%;
+            background: linear-gradient(45deg, #06b6d4, #0ea5e9);
+            animation: float 22s infinite;
+        }
+
+        .diamond {
+            background: linear-gradient(45deg, #f59e0b, #eab308);
+            transform: rotate(45deg);
+            animation: float 30s infinite reverse;
+        }
+
+        .hexagon {
+            width: 60px;
+            height: 34px;
+            background: linear-gradient(45deg, #8b5cf6, #a855f7);
+            position: relative;
+            animation: float 28s infinite;
+        }
+
+        .hexagon::before,
+        .hexagon::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+        }
+
+        .hexagon::before {
+            bottom: 100%;
+            border-bottom: 17px solid #8b5cf6;
+        }
+
+        .hexagon::after {
+            top: 100%;
+            border-top: 17px solid #8b5cf6;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            25% {
+                transform: translateY(-100px) rotate(90deg);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateY(-200px) rotate(180deg);
+                opacity: 0.1;
+            }
+            75% {
+                transform: translateY(-100px) rotate(270deg);
+                opacity: 0.15;
+            }
+        }
+
+        /* Content area styling - you can remove this and use your existing content */
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .demo-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background -->
+    <div class="floating-background" id="floatingBg"></div>
+
+    <!-- Your existing content goes here - replace this demo content -->
+    <!-- <div class="content">
+        <div class="demo-content">
+            <h1>Your Content Here</h1>
+            <p>Replace this section with your existing HTML content. The floating shapes background will appear behind everything.</p>
+        </div>
+    </div> -->
+
+    <script>
+        function createShape(type, size, x, y, delay) {
+            const shape = document.createElement('div');
+            shape.className = `shape ${type}`;
+            
+            if (type === 'circle') {
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
+                // Assign a random color to the circle's background
+                const colors = [
+                    '#6366f1', '#8b5cf6', '#ec4899', '#f43f5e',
+                    '#10b981', '#06b6d4', '#0ea5e9', '#f59e0b', '#eab308', '#a855f7'
+                ];
+                const color1 = colors[Math.floor(Math.random() * colors.length)];
+                const color2 = colors[Math.floor(Math.random() * colors.length)];
+                shape.style.background = `linear-gradient(45deg, ${color1}, ${color2})`;
+
+            } else if (type === 'square' || type === 'diamond') {
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
+            } else if (type === 'ellipse') {
+                shape.style.width = size + 'px';
+                shape.style.height = (size * 0.6) + 'px';
+            } else if (type === 'triangle') {
+                shape.style.width = '50px';
+                shape.style.height = '43px';
+            }
+            
+            shape.style.left = x + '%';
+            shape.style.top = y + '%';
+            shape.style.animationDelay = delay + 's';
+            
+            return shape;
+        }
+
+        function generateShapes() {
+            const container = document.getElementById('floatingBg');
+            const shapes = ['circle', 'square', 'triangle', 'ellipse', 'diamond', 'hexagon'];
+            const shapeCount = 40;
+            
+            for (let i = 0; i < shapeCount; i++) {
+                const type = shapes[Math.floor(Math.random() * shapes.length)];
+                const size = Math.random() * 80 + 20; // 20-100px
+                const x = Math.random() * 100; // 0-100%
+                const y = Math.random() * 100; // 0-100%
+                const delay = Math.random() * 10; // 0-10s delay
+                
+                const shape = createShape(type, size, x, y, delay);
+                container.appendChild(shape);
+            }
+        }
+
+        // Generate shapes when page loads
+        generateShapes();
+
+        // Optional: Regenerate shapes periodically
+        setInterval(() => {
+            const container = document.getElementById('floatingBg');
+            container.innerHTML = '';
+            generateShapes();
+        }, 60000); // Every 60 seconds
+    </script>
+</body>
+</html>
